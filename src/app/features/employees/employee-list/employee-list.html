@@ -1,0 +1,25 @@
+  <h2>Employees</h2>
+
+    <button type="button" (click)="loadEmployees()">
+      Refresh
+    </button>
+
+    <button type="button" (click)="logout()">
+      Logout
+    </button>
+
+    @if (errorMessage()) {
+      <p role="alert">{{ errorMessage() }}</p>
+    }
+
+    @if (loading()) {
+      <p>Loading employees...</p>
+    }
+
+    <ul>
+      @for (employee of employees(); track employee.id) {
+        <li>
+          {{ employee.name }} — {{ employee.department }}
+        </li>
+      }
+    </ul>
