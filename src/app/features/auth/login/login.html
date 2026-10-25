@@ -1,33 +1,94 @@
-<h2>Login</h2>
+<main class="login-page">
+  <section class="welcome-panel" aria-label="Welcome to Northstar People">
+    <a class="brand" routerLink="/" aria-label="Northstar People home">
+      <span class="brand-mark" aria-hidden="true">N</span>
+      <span class="brand-name">northstar<span> / people</span></span>
+    </a>
 
-    <form (ngSubmit)="login()">
-      <div>
-        <label for="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          name="email"
-          [(ngModel)]="email"
-          required
-        />
+    <div class="welcome-copy">
+      <p class="eyebrow"><span></span> YOUR PEOPLE PORTAL</p>
+      <h1>Good things<br />happen when<br />we <em>work together.</em></h1>
+      <p class="welcome-description">
+        Your workday essentials, team updates, and next big thing—all in one
+        place.
+      </p>
+    </div>
+
+    <div class="welcome-art" aria-hidden="true">
+      <div class="art-ring ring-outer"></div>
+      <div class="art-ring ring-inner"></div>
+      <div class="art-sun"></div>
+      <div class="art-hill hill-back"></div>
+      <div class="art-hill hill-front"></div>
+      <div class="art-star star-one">✳</div>
+      <div class="art-star star-two">✦</div>
+    </div>
+
+    <p class="panel-footer">A better workday starts together.</p>
+  </section>
+
+  <section class="form-panel" aria-labelledby="login-title">
+    <div class="form-wrap">
+      <a class="mobile-brand brand" routerLink="/" aria-label="Northstar People home">
+        <span class="brand-mark" aria-hidden="true">N</span>
+        <span class="brand-name">northstar<span> / people</span></span>
+      </a>
+
+      <div class="form-heading">
+        <p class="eyebrow">WELCOME BACK</p>
+        <h2 id="login-title">Sign in to your<br /><span>workspace.</span></h2>
+        <p>Enter your details below to pick up where you left off.</p>
       </div>
 
-      <div>
-        <label for="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          name="password"
-          [(ngModel)]="password"
-          required
-        />
+      <form class="login-form" (ngSubmit)="login()">
+        <div class="field">
+          <label for="email">Work email</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            [(ngModel)]="email"
+            placeholder="you@company.com"
+            autocomplete="username"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <div class="label-row">
+            <label for="password">Password</label>
+          </div>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            [(ngModel)]="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+          />
+        </div>
+
+        @if (errorMessage()) {
+          <p class="error-message" role="alert">{{ errorMessage() }}</p>
+        }
+
+        <button class="submit-button" type="submit" [disabled]="loading()">
+          <span>{{ loading() ? 'Signing in...' : 'Sign in' }}</span>
+          @if (!loading()) {
+            <span class="button-arrow" aria-hidden="true">→</span>
+          }
+        </button>
+      </form>
+
+      <div class="secure-note">
+        <span class="lock-icon" aria-hidden="true">⌑</span>
+        <span>Your account is protected with secure sign-in.</span>
       </div>
 
-      @if (errorMessage()) {
-        <p role="alert">{{ errorMessage() }}</p>
-      }
-
-      <button type="submit" [disabled]="loading()">
-        {{ loading() ? 'Signing in...' : 'Login' }}
-      </button>
-    </form>
+      <p class="form-footer">
+        Having trouble signing in? <span>Contact your people team.</span>
+      </p>
+    </div>
+  </section>
+</main>
