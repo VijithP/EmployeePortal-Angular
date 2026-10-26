@@ -1,25 +1,130 @@
-  <h2>Employees</h2>
+<main class="employee-page">
+  <header class="topbar">
+    <a class="brand" routerLink="/" aria-label="Northstar People home">
+      <span class="brand-mark" aria-hidden="true">N</span>
+      <span class="brand-name">northstar<span> / people</span></span>
+    </a>
 
-    <button type="button" (click)="loadEmployees()">
-      Refresh
-    </button>
+    <div class="topbar-actions">
+      <span class="user-label"><span class="user-dot"></span> People directory</span>
+      <button class="logout-button" type="button" (click)="logout()">Sign out</button>
+    </div>
+  </header>
 
-    <button type="button" (click)="logout()">
-      Logout
-    </button>
+  <section class="page-heading" aria-labelledby="page-title">
+    <div>
+      <p class="eyebrow">YOUR PEOPLE, AT A GLANCE</p>
+      <h1 id="page-title">Meet the <span>team.</span></h1>
+      <p class="heading-description">
+        Get to know the people who make great things happen.
+      </p>
+    </div>
+    <div class="team-count" aria-live="polite">
+      <span class="count-icon" aria-hidden="true">♧</span>
+      <span><strong>{{ employees().length }}</strong><small>team members</small></span>
+    </div>
+  </section>
+
+  <section class="directory-card" aria-label="Employee directory">
+    <div class="directory-toolbar">
+      <div>
+        <h2>All employees</h2>
+        <p>Browse your colleagues and their teams.</p>
+      </div>
+      <div class="toolbar-actions">
+        <label class="search-box">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <span class="visually-hidden">Search employees</span>
+          <input
+            type="search"
+            placeholder="Search people..."
+            [value]="searchTerm()"
+            (input)="updateSearch($event)"
+          />
+        </label>
+        <button
+          class="refresh-button"
+          type="button"
+          (click)="loadEmployees()"
+          [disabled]="loading()"
+          aria-label="Refresh employee list"
+        >
+          <span [class.spinning]="loading()" aria-hidden="true">↻</span>
+          <span>Refresh</span>
+        </button>
+      </div>
+    </div>
 
     @if (errorMessage()) {
-      <p role="alert">{{ errorMessage() }}</p>
+      <div class="error-state" role="alert">
+        <span>{{ errorMessage() }}</span>
+        <button type="button" (click)="loadEmployees()">Try again</button>
+      </div>
     }
 
-    @if (loading()) {
-      <p>Loading employees...</p>
-    }
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Employee</th>
+            <th scope="col">Email address</th>
+            <th scope="col">Department</th>
+            <th scope="col" class="id-heading">Employee ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (employee of filteredEmployees(); track employee.id) {
+            <tr>
+              <td>
+                <div class="employee-cell">
+                  <span class="avatar">{{ initials(employee) }}</span>
+                  <span class="employee-name">{{ employee.firstName }} {{ employee.lastName }}</span>
+                </div>
+              </td>
+              <td><a class="email-link" [href]="'mailto:' + employee.email">{{ employee.email }}</a></td>
+              <td><span class="department-pill">{{ employee.department }}</span></td>
+              <td class="employee-id">#{{ employee.id }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4">
+                @if (loading()) {
+                  <div class="empty-state">
+                    <span class="loading-spinner" aria-hidden="true"></span>
+                    <strong>Gathering your team</strong>
+                    <span>Employee details will be here in a moment.</span>
+                  </div>
+                } @else if (errorMessage()) {
+                  <div class="empty-state">
+                    <strong>We couldn't load the directory</strong>
+                    <span>Please check your connection and try again.</span>
+                  </div>
+                } @else if (employees().length === 0) {
+                  <div class="empty-state">
+                    <strong>No employees to show yet</strong>
+                    <span>When your team is added, you'll find them here.</span>
+                  </div>
+                } @else {
+                  <div class="empty-state">
+                    <strong>No matches found</strong>
+                    <span>Try another name, email, or department.</span>
+                  </div>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
 
-    <ul>
-      @for (employee of employees(); track employee.id) {
-        <li>
-          {{ employee.name }} — {{ employee.department }}
-        </li>
-      }
-    </ul>
+    <footer class="table-footer">
+      <span>Showing <strong>{{ filteredEmployees().length }}</strong> of {{ employees().length }} employees</span>
+      <span class="updated-note"><span></span> Directory at a glance</span>
+    </footer>
+  </section>
+
+  <footer class="page-footer">
+    <a routerLink="/">← Back to your people portal</a>
+    <span>Northstar People</span>
+  </footer>
+</main>
