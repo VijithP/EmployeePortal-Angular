@@ -1,0 +1,80 @@
+<main class="employee-page">
+  <header class="topbar">
+    <a class="brand" routerLink="/" aria-label="Northstar People home">
+      <span class="brand-mark" aria-hidden="true">N</span>
+      <span class="brand-name">northstar<span> / people</span></span>
+    </a>
+    <a class="back-link" routerLink="/employees">← Back to employees</a>
+  </header>
+
+  <section class="form-card" aria-labelledby="page-title">
+    <p class="eyebrow">GROW YOUR TEAM</p>
+    <h1 id="page-title">Add a new <span>employee.</span></h1>
+    <p class="description">Enter the employee details below.</p>
+
+    <form [formGroup]="employeeForm" (ngSubmit)="saveEmployee()" novalidate>
+      <div class="field">
+        <label for="name">Full name</label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          autocomplete="name"
+          placeholder="e.g. Alex Morgan"
+        />
+        @if (employeeForm.controls.name.touched && employeeForm.controls.name.hasError('required')) {
+          <span class="field-error">Name is required.</span>
+        } @else if (employeeForm.controls.name.touched && employeeForm.controls.name.hasError('maxlength')) {
+          <span class="field-error">Name must be 100 characters or fewer.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="email">Work email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+          placeholder="alex@company.com"
+        />
+        @if (employeeForm.controls.email.touched && employeeForm.controls.email.hasError('required')) {
+          <span class="field-error">Email is required.</span>
+        } @else if (employeeForm.controls.email.touched && employeeForm.controls.email.hasError('email')) {
+          <span class="field-error">Enter a valid email address.</span>
+        } @else if (employeeForm.controls.email.touched && employeeForm.controls.email.hasError('maxlength')) {
+          <span class="field-error">Email must be 254 characters or fewer.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="salary">Salary</label>
+        <input
+          id="salary"
+          type="number"
+          formControlName="salary"
+          min="0"
+          step="0.01"
+          inputmode="decimal"
+          placeholder="e.g. 65000"
+        />
+        @if (employeeForm.controls.salary.touched && employeeForm.controls.salary.hasError('required')) {
+          <span class="field-error">Salary is required.</span>
+        } @else if (employeeForm.controls.salary.touched && employeeForm.controls.salary.hasError('min')) {
+          <span class="field-error">Salary cannot be negative.</span>
+        }
+      </div>
+
+      @if (errorMessage()) {
+        <p class="error-message" role="alert">{{ errorMessage() }}</p>
+      }
+
+      <div class="form-actions">
+        <a class="cancel-button" routerLink="/employees">Cancel</a>
+        <button class="submit-button" type="submit" [disabled]="loading()">
+          {{ loading() ? 'Saving...' : 'Save employee' }}
+        </button>
+      </div>
+    </form>
+  </section>
+</main>

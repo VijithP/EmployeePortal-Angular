@@ -6,10 +6,9 @@ import { API_BASE_URL } from '../../../core/config/api.config';
 
 interface Employee {
   id: number;
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
-  department: string;
+  salary: number;
 }
 
 @Component({
@@ -35,7 +34,7 @@ export class EmployeeListComponent implements OnInit {
     }
 
     return this.employees().filter(employee =>
-      `${employee.firstName} ${employee.lastName} ${employee.email} ${employee.department}`
+      `${employee.id} ${employee.name} ${employee.email} ${employee.salary}`
         .toLowerCase()
         .includes(query)
     );
@@ -77,7 +76,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   initials(employee: Employee): string {
-    return `${employee.firstName.charAt(0)}${employee.lastName.charAt(0)}`.toUpperCase();
+    return `${employee.name.charAt(0)}`.toUpperCase();
   }
 
   updateSearch(event: Event): void {

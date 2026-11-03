@@ -97,6 +97,7 @@
 
 .logout-button,
 .refresh-button,
+.add-employee-button,
 .error-state button {
   border: 1px solid #dfe3da;
   border-radius: 6px;
@@ -112,6 +113,22 @@
 .logout-button {
   min-height: 38px;
   padding: 0 14px;
+}
+
+.add-employee-button {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  padding: 0 14px;
+  border-color: #244d3b;
+  background: #244d3b;
+  color: #fffdf5;
+  text-decoration: none;
+}
+
+.add-employee-button:hover {
+  border-color: #193d2d;
+  background: #193d2d;
 }
 
 .logout-button:hover,

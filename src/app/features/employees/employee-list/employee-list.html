@@ -32,6 +32,7 @@
         <p>Browse your colleagues and their teams.</p>
       </div>
       <div class="toolbar-actions">
+        <a class="add-employee-button" routerLink="/employees/add">Add employee</a>
         <label class="search-box">
           <span class="search-icon" aria-hidden="true">⌕</span>
           <span class="visually-hidden">Search employees</span>
@@ -66,24 +67,25 @@
       <table>
         <thead>
           <tr>
+            <th scope="col" class="id-heading">Employee ID</th>
             <th scope="col">Employee</th>
             <th scope="col">Email address</th>
-            <th scope="col">Department</th>
-            <th scope="col" class="id-heading">Employee ID</th>
+            <th scope="col">Salary</th>            
           </tr>
         </thead>
         <tbody>
           @for (employee of filteredEmployees(); track employee.id) {
             <tr>
+              <td class="employee-id">#{{ employee.id }}</td>
               <td>
                 <div class="employee-cell">
                   <span class="avatar">{{ initials(employee) }}</span>
-                  <span class="employee-name">{{ employee.firstName }} {{ employee.lastName }}</span>
+                  <span class="employee-name">{{ employee.name }}</span>
                 </div>
               </td>
               <td><a class="email-link" [href]="'mailto:' + employee.email">{{ employee.email }}</a></td>
-              <td><span class="department-pill">{{ employee.department }}</span></td>
-              <td class="employee-id">#{{ employee.id }}</td>
+              <td><span class="department-pill">{{ employee.salary  }}</span></td>
+             
             </tr>
           } @empty {
             <tr>

@@ -9,6 +9,13 @@ export const routes: Routes = [
         .then(m => m.LoginComponent)
   },
   {
+    path: 'employees/add',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/employees/employee-add/employee-add')
+        .then(m => m.EmployeeAddComponent)
+  },
+  {
     path: 'employees',
     canActivate: [authGuard],
     loadComponent: () =>
