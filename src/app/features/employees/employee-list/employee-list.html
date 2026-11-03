@@ -70,7 +70,8 @@
             <th scope="col" class="id-heading">Employee ID</th>
             <th scope="col">Employee</th>
             <th scope="col">Email address</th>
-            <th scope="col">Salary</th>            
+            <th scope="col">Salary</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -84,12 +85,15 @@
                 </div>
               </td>
               <td><a class="email-link" [href]="'mailto:' + employee.email">{{ employee.email }}</a></td>
-              <td><span class="department-pill">{{ employee.salary  }}</span></td>
-             
+              <td><span class="department-pill">{{ employee.salary }}</span></td>
+              <td class="row-actions">
+                <a class="row-action edit-action" [routerLink]="['/employees', employee.id, 'edit']">Edit</a>
+                <a class="row-action delete-action" [routerLink]="['/employees', employee.id, 'delete']">Delete</a>
+              </td>
             </tr>
           } @empty {
             <tr>
-              <td colspan="4">
+              <td colspan="5">
                 @if (loading()) {
                   <div class="empty-state">
                     <span class="loading-spinner" aria-hidden="true"></span>

@@ -19,7 +19,23 @@ export type NewEmployee = Omit<Employee, 'id'>;
 export class EmployeeService {
   private readonly http = inject(HttpClient);
 
+  getEmployees(): Observable<Employee[]> {
+    return this.http.get<Employee[]>(`${API_BASE_URL}/employees`);
+  }
+
+  getEmployee(id: number): Observable<Employee> {
+    return this.http.get<Employee>(`${API_BASE_URL}/employees/${id}`);
+  }
+
   addEmployee(employee: NewEmployee): Observable<Employee> {
     return this.http.post<Employee>(`${API_BASE_URL}/employees`, employee);
+  }
+
+  updateEmployee(id: number, employee: NewEmployee): Observable<Employee> {
+    return this.http.put<Employee>(`${API_BASE_URL}/employees/${id}`, employee);
+  }
+
+  deleteEmployee(id: number): Observable<void> {
+    return this.http.delete<void>(`${API_BASE_URL}/employees/${id}`);
   }
 }

@@ -421,6 +421,36 @@ tbody tr:nth-child(4n + 4) .avatar {
   font-variant-numeric: tabular-nums;
 }
 
+.row-actions {
+  white-space: nowrap;
+}
+
+.row-action {
+  display: inline-block;
+  padding: 6px 8px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.edit-action {
+  color: #536a56;
+}
+
+.edit-action:hover {
+  background: #f0f3ed;
+}
+
+.delete-action {
+  margin-left: 4px;
+  color: #a3443b;
+}
+
+.delete-action:hover {
+  background: #fff0ed;
+}
+
 .empty-state {
   min-height: 190px;
   display: flex;

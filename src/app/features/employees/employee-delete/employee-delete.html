@@ -1,0 +1,38 @@
+<main class="employee-page">
+  <header class="topbar">
+    <a class="brand" routerLink="/" aria-label="Northstar People home">
+      <span class="brand-mark" aria-hidden="true">N</span>
+      <span class="brand-name">northstar<span> / people</span></span>
+    </a>
+    <a class="back-link" routerLink="/employees">← Back to employees</a>
+  </header>
+
+  <section class="confirm-card" aria-labelledby="page-title">
+    <div class="warning-icon" aria-hidden="true">!</div>
+    <p class="eyebrow">REMOVE FROM YOUR DIRECTORY</p>
+    <h1 id="page-title">Delete <span>employee?</span></h1>
+
+    @if (loading()) {
+      <p class="description" role="status">Loading employee details...</p>
+    } @else if (employee(); as currentEmployee) {
+      <p class="description">
+        Are you sure you want to delete <strong>{{ currentEmployee.name }}</strong>
+        ({{ currentEmployee.email }})? This action cannot be undone.
+      </p>
+      @if (errorMessage()) {
+        <p class="error-message" role="alert">{{ errorMessage() }}</p>
+      }
+      <div class="form-actions">
+        <a class="cancel-button" routerLink="/employees">Cancel</a>
+        <button class="delete-button" type="button" (click)="deleteEmployee()" [disabled]="deleting()">
+          {{ deleting() ? 'Deleting...' : 'Delete employee' }}
+        </button>
+      </div>
+    } @else {
+      @if (errorMessage()) {
+        <p class="error-message" role="alert">{{ errorMessage() }}</p>
+      }
+      <a class="cancel-button" routerLink="/employees">Return to employees</a>
+    }
+  </section>
+</main>

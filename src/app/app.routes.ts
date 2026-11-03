@@ -16,6 +16,20 @@ export const routes: Routes = [
         .then(m => m.EmployeeAddComponent)
   },
   {
+    path: 'employees/:id/edit',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/employees/employee-update/employee-update')
+        .then(m => m.EmployeeUpdateComponent)
+  },
+  {
+    path: 'employees/:id/delete',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/employees/employee-delete/employee-delete')
+        .then(m => m.EmployeeDeleteComponent)
+  },
+  {
     path: 'employees',
     canActivate: [authGuard],
     loadComponent: () =>

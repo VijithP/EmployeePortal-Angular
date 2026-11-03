@@ -1,15 +1,10 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { API_BASE_URL } from '../../../core/config/api.config';
-
-interface Employee {
-  id: number;
-  name: string;
-  email: string;
-  salary: number;
-}
+import {
+  Employee,
+  EmployeeService
+} from '../../../core/services/employee.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -19,7 +14,7 @@ interface Employee {
   styleUrl: './employee-list.css'
 })
 export class EmployeeListComponent implements OnInit {
-  private readonly http = inject(HttpClient);
+  private readonly employeeService = inject(EmployeeService);
   private readonly authService = inject(AuthService);
 
   employees = signal<Employee[]>([]);
@@ -48,31 +43,29 @@ export class EmployeeListComponent implements OnInit {
     this.loading.set(true);
     this.errorMessage.set('');
 
-    this.http
-      .get<Employee[]>(`${API_BASE_URL}/employees`)
-      .subscribe({
-        next: employees => {
-          this.employees.set(employees);
-          this.loading.set(false);
-        },
-        error: error => {
-          this.loading.set(false);
+    this.employeeService.getEmployees().subscribe({
+      next: employees => {
+        this.employees.set(employees);
+        this.loading.set(false);
+      },
+      error: error => {
+        this.loading.set(false);
 
-          if (error.status === 401) {
-            this.errorMessage.set(
-              'Your session has expired. Please sign in again.'
-            );
-          } else if (error.status === 403) {
-            this.errorMessage.set(
-              'You do not have permission to access this resource.'
-            );
-          } else {
-            this.errorMessage.set(
-              'Unable to load employees. Please try again.'
-            );
-          }
+        if (error.status === 401) {
+          this.errorMessage.set(
+            'Your session has expired. Please sign in again.'
+          );
+        } else if (error.status === 403) {
+          this.errorMessage.set(
+            'You do not have permission to access this resource.'
+          );
+        } else {
+          this.errorMessage.set(
+            'Unable to load employees. Please try again.'
+          );
         }
-      });
+      }
+    });
   }
 
   initials(employee: Employee): string {
